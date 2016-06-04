@@ -1,0 +1,43 @@
+{
+  "name": "iobroker.vis-history",
+  "description": "history Widgets for ioBroker.vis",
+  "version": "0.1.0",
+  "author": {
+    "name": "bluefox",
+    "email": "dogafox@gmail.com"
+  },
+  "contributors": [
+    "bluefox <dogafox@gmail.com>"
+  ],
+  "homepage": "https://github.com/ioBroker/ioBroker.vis-history",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ioBroker/ioBroker.vis-history"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ioBroker/ioBroker.vis-history/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "ioBroker",
+    "GUI",
+	"history"
+  ],
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-replace": "^0.9.3",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-jscs": "^2.0.0",
+    "grunt-http": "^1.6.0"
+  },
+  "bugs": {
+    "url": "https://github.com/ioBroker/ioBroker.vis-history/issues"
+  },
+  "main": "widgets/history.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT"
+}

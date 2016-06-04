@@ -1,0 +1,42 @@
+{
+    "common": {
+        "name":                     "vis-history",
+        "version": "0.1.0",
+        "title":                    "ioBroker Visualisation - history Widgets",
+		"news": {
+            "0.1.0": {
+                "en": "initial commit",
+                "de": "initial commit",
+                "ru": "initial commit"
+            }
+        },
+        "desc": {
+            "en":                   "history Widgets for ioBroker.vis",
+            "de":                   "history Widgets für ioBroker.vis",
+            "ru":                   "history Widgets для ioBroker.vis"
+        },
+        "platform":                 "Javascript/Node.js",
+        "icon":                     "vis-history.png",
+        "enabled":                  true,
+        "mode":                     "once",
+        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.vis-history/master/admin/vis-history.png",
+        "keywords":                 ["history", "vis", "GUI", "graphical", "scada"],
+        "readme":                   "https://github.com/ioBroker/ioBroker.vis-history/blob/master/README.md",
+        "authors": [
+            "Pmant <patrickmo@gmx.de>"
+        ],
+        "localLink":                "%web_protocol%://%ip%:%web_port%/vis/edit.html",
+        "license":                  "MIT",
+        "dependencies":             ["vis"],
+        "onlyWWW":                  true,
+        "singleton":                true,
+        "type":                     "vis",
+	    "noConfig":                 true,
+	    "restartAdapters":          ["vis"]
+    },
+    "native": {
+        "dependencies":          []
+    },
+    "instanceObjects": [
+    ]
+}

@@ -1,0 +1,132 @@
+<!--
+    ioBroker.vis history widgets
+
+    version: "0.0.1"
+
+    Copyright 2016 bluefox<dogafox@gmail.com>
+
+-->
+<script type="text/javascript">
+    "use strict";
+    if (vis.editMode) {
+        // Add words for basic widgets
+        $.extend(true, systemDictionary, {
+            "format_date":          {"en": "Dateformat",                "de": "Datumformat",            "ru": "Формат даты"},
+            "format_date_tooltip": {
+                "en": "Dateformat",
+                "de": "Datumformat",
+                "ru": "Формат даты"
+            },
+        });
+    }
+
+    vis.binds.history = {
+        version: "0.0.1",
+        showVersion: function () {
+            if (vis.binds.history.version) {
+                console.log('Version vis-history: ' + vis.binds.history.version);
+                vis.binds.history.version = null;
+            }
+        },
+        eventList: {
+            header: function (data) {
+                var text = data.title ? '<div style="text-align:center; width: 100%;' + data.title_attr + '">' + data.title + '</div>' : '';
+                text += '<table class="vis-no-spaces" style="width: 100%;"">\n';
+                var table_attr = (data.table_attr || '');
+                var attrTime = (data.time_width ? 'width: ' + data.time_width + 'px;' : '');
+                var attrVal  = (data.val_width  ? 'width: ' + data.val_width  + 'px;' : '');
+                var attrFrom = (data.from_width ? 'width: ' + data.from_width + 'px;' : '');
+
+                if ((!data.time_hide && data.time_name) ||
+                    (!data.val_hide  && data.val_name) ||
+                    (!data.from_hide && data.from_name)) {
+                    text += '<tr style="' + (data.header_attr || '') + ';' + table_attr + '">';
+                    if (!data.time_hide) text += '<th style="' + attrTime + table_attr + '">' + (data.time_name || '') + '</th>';
+                    if (!data.val_hide)  text += '<th style="' + attrVal  + table_attr + '">' + (data.val_name  || '') + '</th>';
+                    if (!data.from_hide) text += '<th style="' + attrFrom + table_attr + '">' + (data.time_name || '') + '</th>';
+                    attrTime = '';
+                    attrVal  = '';
+                    attrFrom = '';
+                }
+                return {text: text, attrTime: attrTime, attrVal: attrVal, attrFrom: attrFrom, table_attr: table_attr};
+            },
+            update: function ($div) {
+                var data = $div.data('options');
+                if (!data.oid || !data.instance) {
+                    var header = vis.binds.history.eventList.header(data);
+                    header.text += '</table>';
+                    $div.html(header.text);
+                } else {
+                    vis.getHistory(data.oid, {
+                        instance:   data.instance,
+                        count:      data.max_lines || 10,
+                        aggregate:  'none',
+                        from:       !data.from_hide
+                    }, function (err, result) {
+                        if (err) console.log(err);
+                        if (result && result.length) {
+                            var header = vis.binds.history.eventList.header(data);
+
+                            for (var e = 0; e < result.length; e++) {
+                                header.text += '<tr style="' + header.table_attr + '">';
+                                if (!data.time_hide) header.text += '<td style="' + header.attrTime + (data.time_attr ||'') + ';' + header.table_attr + '">' + vis.binds.basic.formatDate(result[e].ts, data.format_date) + '</td>';
+                                if (!data.val_hide)  header.text += '<td style="' + header.attrVal  + (data.val_attr  ||'') + ';' + header.table_attr + '">' + result[e].val + '</td>';
+                                if (!data.from_hide) header.text += '<td style="' + header.attrFrom + (data.from_attr ||'') + ';' + header.table_attr + '">' + (result[e].from || '') + '</td>';
+                                header.text += '</tr>\n';
+                            }
+                            header.text += '</table>';
+                            $div.html(header.text);
+                        } else {
+                            var header = vis.binds.history.eventList.header(data);
+                            header.text += '<tr><td colspan="3">' + (err || _('no data')) + '</td></tr>';
+                            header.text += '</table>';
+                            $div.html(header.text);
+                        }
+                    });
+
+                }
+            },
+            init: function (el, view, data) {
+                var $div = $(el);
+                console.log('h');
+
+                var _data = {};
+                for (var s  in data) {
+                    if (s[0] !== '_' && data.hasOwnProperty(s) && typeof data[s] !== 'object' && typeof data[s] !== 'function') {
+                        _data[s] = data[s];
+                    }
+                }
+                data = null;
+                $div.data('options', _data);
+
+                if (_data.oid && _data.instance) {
+                    vis.states.bind(_data.oid + '.val', function () {
+                        vis.binds.history.eventList.update($div);
+                    });
+                }
+                vis.binds.history.eventList.update($div);
+            }
+        }
+    };
+    vis.binds.history.showVersion();
+</script>
+
+<script id="tplHistoryEventList"
+        type="text/ejs"
+        class="vis-tpl"
+        data-vis-set="history"
+        data-vis-name="Event list"
+        data-vis-type="history"
+        data-vis-prev='<div id="prev_tplHqButton" style="position: relative; text-align: initial;padding: 10px !important"><div class="vis-widget_prev vis-hq-button-base" style="overflow: visible; width: 64px; height: 64px; border-radius: 64px; left: 543px; top: 37px; position: absolute;"><div class="vis-hq-main vis-hq-button-base-on" style="z-index: 1; border-radius: 64px;"><div class="vis-hq-middle"><table class="vis-hq-table hq-no-space" style="position: absolute; left: 4px; top: 2px;"><tbody><tr class="hq-no-space"><td class="hq-no-space"><div class="vis-hq-icon" style="text-align: center;"><img class="vis-hq-icon-img" style="height: 56px; width: auto;" src="img/bulb_off.png"></div></td></tr></tbody></table></div></div></div></div>'
+        data-vis-attrs="oid/id;instance/history;title;title_attr;"
+        data-vis-attrs0="group.advanced;max_lines/slider,1,100,1;time_interval_min/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;"
+        data-vis-attrs1="format_date[hh:mm:ss.sss]/auto,YYYY.MM.DD hh:mm:ss,DD.MM.YYYY hh:mm:ss,YYYY.MM.DD,DD.MM.YYYY,YYYY/MM/DD hh:mm:ss,YYYY/MM/DD,hh:mm:ss;"
+        data-vis-attrs2="group.columns;table_attr[border: 1px solid gray§];header_attr[background: #8f8f8f§ color: white];"
+        data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr[text-align: center§];"
+        data-vis-attrs4="val_name[Value];val_hide/checkbox;val_width/slider,0,300,1;val_attr[text-align: center§];"
+        data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr[text-align: center§];"
+        >
+    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 100px; height: 200px; border: 1px solid gray" id="<%= this.data.attr('wid') %>">
+        <div class="vis-widget-body" <%= (el) -> vis.binds.history.eventList.init(el, this.view, this.data) %>></div>
+    </div>
+</script>
