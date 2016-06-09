@@ -6,17 +6,54 @@
     Copyright 2016 bluefox<dogafox@gmail.com>
 
 -->
+<script type="text/javascript" src="widgets/history/lib/js/jquery.sparkline.min.js"></script>
+
 <script type="text/javascript">
     "use strict";
     if (vis.editMode) {
         // Add words for basic widgets
         $.extend(true, systemDictionary, {
-            "format_date":          {"en": "Dateformat",                "de": "Datumformat",            "ru": "Формат даты"},
+            "format_date":          {"en": "Dateformat",        "de": "Datumformat",            "ru": "Формат даты"},
             "format_date_tooltip": {
                 "en": "Dateformat",
                 "de": "Datumformat",
                 "ru": "Формат даты"
             },
+            "1 second":         {"en": "1 second",              "de": "1 Sekunde",              "ru": "1 секунда"},
+            "10 seconds":       {"en": "10 seconds",            "de": "10 Sekunden",            "ru": "10 секунд"},
+            "30 seconds":       {"en": "30 seconds",            "de": "30 Sekunden",            "ru": "30 секунд"},
+            "1 minute":         {"en": "1 minute",              "de": "1 Minute",               "ru": "1 минута"},
+            "2 minutes":        {"en": "2 minutes",             "de": "2 Minuten",              "ru": "2 минуты"},
+            "5 minutes":        {"en": "5 minutes",             "de": "5 Minuten",              "ru": "5 минут"},
+            "10 minutes":       {"en": "10 minutes",            "de": "10 Minuten",             "ru": "10 минут"},
+            "30 minutes":       {"en": "30 minutes",            "de": "30 Minuten",             "ru": "30 минут"},
+            "1 hour":           {"en": "1 hour",                "de": "1 Stunde",               "ru": "1 час"},
+            "2 hours":          {"en": "2 hours",               "de": "2 Stunden",              "ru": "2 часа"},
+            "4 hours":          {"en": "4 hours",               "de": "4 Stunden",              "ru": "4 часа"},
+            "8 hours":          {"en": "8 hours",               "de": "8 Stunden",              "ru": "8 часов"},
+            "12 hours":         {"en": "12 hours",              "de": "12 Stunden",             "ru": "12 часов"},
+            "24 hours":         {"en": "24 hours",              "de": "24 Stunden",             "ru": "24 часа"},
+            "instance":         {"en": "history instance",      "de": "Historyinstanz",         "ru": "Экземпляр"},
+            "group_advanced":   {"en": "Advanced",              "de": "Erweitert",              "ru": "Дополнительно"},
+            "max_lines":        {"en": "Max. event amount",     "de": "Max. Ereignisen",        "ru": "Макс. кол-во событий"},
+            "time_interval_min": {"en": "Not older than",       "de": "Nicht älter als",        "ru": "Не позже чем"},
+            "timeAsInterval":   {"en": "Time as interval",      "de": "Zeit als Intervall",     "ru": "Время, как интервал"},
+            "inverseOrder":     {"en": "Inverse order",         "de": "Reihenfolge invertieren", "ru": "Обратный порядок"},
+            "group_columns":    {"en": "Columns",               "de": "Spalten",                "ru": "Колонки"},
+            "table_attr":       {"en": "Table CSS style",       "de": "CSS Stil - Tabelle",     "ru": "Таблица - CSS стиль"},
+            "header_attr":      {"en": "Header CSS style",      "de": "CSS Stil - Beschriftung", "ru": "Заголовок - CSS стиль"},
+            "time_name":        {"en": "Time - name",           "de": "Zeit - Name",            "ru": "Время - имя"},
+            "time_hide":        {"en": "Time - hide",           "de": "Zeit - nicht zeigen",    "ru": "Время - скрыть"},
+            "time_width":       {"en": "Time - width",          "de": "Zeit - Breite",          "ru": "Время - ширина"},
+            "time_attr":        {"en": "Time - CSS style",      "de": "Zeit - CSS Stil",        "ru": "Время - CSS стиль"},
+            "val_name":         {"en": "Val- name",             "de": "Wert - Name",            "ru": "Значение - имя"},
+            "val_hide":         {"en": "Val - hide",            "de": "Wert - nicht zeigen",    "ru": "Значение  - скрыть"},
+            "val_width":        {"en": "Val - width",           "de": "Wert - Breite",          "ru": "Значение - ширина"},
+            "val_attr":         {"en": "Val - CSS style",       "de": "Wert - CSS Stil",        "ru": "Значение - CSS стиль"},
+            "from_name":        {"en": "From - name",           "de": "Von - Name",             "ru": "От - имя"},
+            "from_hide":        {"en": "From - hide",           "de": "Von - nicht zeigen",     "ru": "От - скрыть"},
+            "from_width":       {"en": "From - width",          "de": "Von - Breite",           "ru": "От - ширина"},
+            "from_attr":        {"en": "From - CSS style",      "de": "Von - CSS Stil",         "ru": "От - CSS стиль"}
         });
     }
 
@@ -28,10 +65,43 @@
                 vis.binds.history.version = null;
             }
         },
+        updateWidgets: [],
+        updateIntervalTimer: null,
+        startIntervalUpdate: function () {
+            if (vis.editMode) return;
+            if (vis.binds.history.updateWidgets.length && !vis.binds.history.updateIntervalTimer) {
+                vis.binds.history.updateIntervalTimer = setInterval(vis.binds.history.updateInterval, 30000);
+            } else if (!vis.binds.history.updateWidgets.length && vis.binds.history.updateIntervalTimer) {
+                clearInterval(vis.binds.history.updateIntervalTimer);
+                vis.binds.history.updateIntervalTimer = null;
+            }
+        },
+        updateInterval: function () {
+            for (var wid = 0; wid < vis.binds.history.updateWidgets.length; wid++) {
+                vis.binds.history.eventList.update($('#' + vis.binds.history.updateWidgets[wid]).find('.vis-widget-body'));
+            }
+        },
         eventList: {
+            intervals: {
+                "1 second":     1000,
+                "10 seconds":   10000,
+                "30 seconds":   30000,
+                "1 minute":     60000,
+                "2 minutes":    120000,
+                "5 minutes":    300000,
+                "10 minutes":   600000,
+                "30 minutes":   1800000,
+                "1 hour":       3600000,
+                "2 hours":      7200000,
+                "4 hours":      14400000,
+                "8 hours":      28800000,
+                "12 hours":     43200000,
+                "24 hours":     86400000
+
+            },
             header: function (data) {
-                var text = data.title ? '<div style="text-align:center; width: 100%;' + data.title_attr + '">' + data.title + '</div>' : '';
-                text += '<table class="vis-no-spaces" style="width: 100%;"">\n';
+                var text = data.title ? '<div style="text-align: center; width: 100%;' + (data.title_attr || '') + '">' + data.title + '</div>' : '';
+                text += '<table class="vis-no-spaces">\n';
                 var table_attr = (data.table_attr || '');
                 var attrTime = (data.time_width ? 'width: ' + data.time_width + 'px;' : '');
                 var attrVal  = (data.val_width  ? 'width: ' + data.val_width  + 'px;' : '');
@@ -50,10 +120,32 @@
                 }
                 return {text: text, attrTime: attrTime, attrVal: attrVal, attrFrom: attrFrom, table_attr: table_attr};
             },
+            renderLine(header, data, result, line) {
+                var resLine = result[line] || {val: '&nbsp;', from: '&nbsp;'};
+                var text = '<tr style="' + header.table_attr + '">';
+                var time;
+                if (resLine.ts) {
+                    time = data.timeAsInterval ? vis.binds.basic.getTimeInterval(resLine.ts) : vis.binds.basic.formatDate(resLine.ts, data.format_date);
+                } else {
+                    time = '&nbsp;';
+                }
+
+                if (!data.time_hide) text += '<td style="' + header.attrTime + (data.time_attr || '') + ';' + header.table_attr + '">' + time + '</td>';
+                if (!data.val_hide)  text += '<td style="' + header.attrVal  + (data.val_attr  || '') + ';' + header.table_attr + '">' + resLine.val + '</td>';
+                if (!data.from_hide) text += '<td style="' + header.attrFrom + (data.from_attr || '') + ';' + header.table_attr + '">' + (resLine.from || '') + '</td>';
+
+                text += '</tr>\n';
+                return text;
+            },
             update: function ($div) {
                 var data = $div.data('options');
                 if (!data.oid || !data.instance) {
                     var header = vis.binds.history.eventList.header(data);
+                    if (data.max_lines) {
+                        for (var e = 0; e < data.max_lines; e++) {
+                            header.text += vis.binds.history.eventList.renderLine(header, data, [], e);
+                        }
+                    }
                     header.text += '</table>';
                     $div.html(header.text);
                 } else {
@@ -61,29 +153,43 @@
                         instance:   data.instance,
                         count:      data.max_lines || 10,
                         aggregate:  'none',
-                        from:       !data.from_hide
+                        from:       !data.from_hide,
+                        start:      vis.binds.history.eventList.intervals[data.time_interval_min] ? new Date().getTime() - vis.binds.history.eventList.intervals[data.time_interval_min] : undefined,
+                        timeout:    2000
                     }, function (err, result) {
+                        var e;
                         if (err) console.log(err);
                         if (result && result.length) {
                             var header = vis.binds.history.eventList.header(data);
+                            if (data.inverseOrder) {
+                                for (e = 0; e < result.length; e++) {
+                                    header.text += vis.binds.history.eventList.renderLine(header, data, result, e);
+                                }
+                            } else {
+                                for (e = result.length - 1; e >= 0; e--) {
+                                    header.text += vis.binds.history.eventList.renderLine(header, data, result, e);
+                                }
+                            }
 
-                            for (var e = 0; e < result.length; e++) {
-                                header.text += '<tr style="' + header.table_attr + '">';
-                                if (!data.time_hide) header.text += '<td style="' + header.attrTime + (data.time_attr ||'') + ';' + header.table_attr + '">' + vis.binds.basic.formatDate(result[e].ts, data.format_date) + '</td>';
-                                if (!data.val_hide)  header.text += '<td style="' + header.attrVal  + (data.val_attr  ||'') + ';' + header.table_attr + '">' + result[e].val + '</td>';
-                                if (!data.from_hide) header.text += '<td style="' + header.attrFrom + (data.from_attr ||'') + ';' + header.table_attr + '">' + (result[e].from || '') + '</td>';
-                                header.text += '</tr>\n';
+                            if (data.max_lines) {
+                                for (e = result.length; e < data.max_lines; e++) {
+                                    header.text += vis.binds.history.eventList.renderLine(header, data, result, e);
+                                }
                             }
                             header.text += '</table>';
                             $div.html(header.text);
                         } else {
                             var header = vis.binds.history.eventList.header(data);
                             header.text += '<tr><td colspan="3">' + (err || _('no data')) + '</td></tr>';
+                            if (data.max_lines) {
+                                for (e = 1; e < data.max_lines; e++) {
+                                    header.text += vis.binds.history.eventList.renderLine(header, data, [], e);
+                                }
+                            }
                             header.text += '</table>';
                             $div.html(header.text);
                         }
                     });
-
                 }
             },
             init: function (el, view, data) {
@@ -100,14 +206,120 @@
                 $div.data('options', _data);
 
                 if (_data.oid && _data.instance) {
+                    if (_data.timeAsInterval && vis.binds.history.updateWidgets.indexOf(_data.wid) === -1) {
+                        vis.binds.history.updateWidgets.push(_data.wid);
+                        vis.binds.history.startIntervalUpdate();
+                    }
+
                     vis.states.bind(_data.oid + '.val', function () {
                         vis.binds.history.eventList.update($div);
                     });
                 }
                 vis.binds.history.eventList.update($div);
             }
+        },
+        sparkLine: {
+            update: function ($div) {
+                var data = $div.data('options');
+                if (!data.oid || !data.instance) {
+                    $div.sparkline([0,0], {
+                        width: $div.width(),
+                        height: $div.height(),
+                        lineColor: data.lineColor,
+                        fillColor: data.fillColor,
+                        chartRangeMin: data.min === '' || data.min === null || data.min === 'undefined' ? undefined : parseFloat(data.min),
+                        chartRangeMax: data.max === '' || data.max === null || data.max === 'undefined' ? undefined : parseFloat(data.max),
+                        lineWidth: parseInt(data.lineWidth, 10) || 1
+                    });
+                } else {
+                    vis.getHistory(data.oid, {
+                        instance:   data.instance,
+                        count:      data.max_lines || 10,
+                        aggregate:  'average',
+                        start:      vis.binds.history.eventList.intervals[data.time_interval_min] ? new Date().getTime() - vis.binds.history.eventList.intervals[data.time_interval_min] : undefined,
+                        timeout:    2000
+                    }, function (err, result) {
+                        var data = $div.data('options');
+                        if (err) console.log(err);
+                        if (result && result.length) {
+                            var values = [];
+                            for (var i = 0; i < result.length; i++) {
+                                values.push(result[i].val)
+                            }
+
+                            $div.sparkline(values, {
+                                width: $div.width(),
+                                height: $div.height(),
+                                lineColor: data.lineColor,
+                                fillColor: data.fillColor,
+                                chartRangeMin: data.min === '' || data.min === null || data.min === 'undefined' ? undefined : parseFloat(data.min),
+                                chartRangeMax: data.max === '' || data.max === null || data.max === 'undefined' ? undefined : parseFloat(data.max),
+                                lineWidth: parseInt(data.lineWidth, 10) || 1
+                            });
+                        } else {
+                            $div.sparkline([0,0], {
+                                width: $div.width(),
+                                height: $div.height(),
+                                lineColor: data.lineColor,
+                                fillColor: data.fillColor,
+                                chartRangeMin: data.min === '' || data.min === null || data.min === 'undefined' ? undefined : parseFloat(data.min),
+                                chartRangeMax: data.max === '' || data.max === null || data.max === 'undefined' ? undefined : parseFloat(data.max),
+                                lineWidth: parseInt(data.lineWidth, 10) || 1
+                            });
+                        }
+                    });
+                }
+
+            },
+            init: function (el, view, data) {
+                var $div = $(el);
+                console.log('h');
+
+                var _data = {};
+                for (var s  in data) {
+                    if (s[0] !== '_' && data.hasOwnProperty(s) && typeof data[s] !== 'object' && typeof data[s] !== 'function') {
+                        _data[s] = data[s];
+                    }
+                }
+                data = null;
+                $div.data('options', _data);
+
+                if (_data.oid && _data.instance) {
+                    vis.states.bind(_data.oid + '.val', function () {
+                        vis.binds.history.sparkLine.update($div);
+                    });
+                }
+                vis.binds.history.sparkLine.update($div);
+            }
         }
     };
+
+    if (vis.editMode) {
+        vis.binds.history.onHidChanged = function (widgetID, view, newId, fields) {
+            var obj = vis.objects[newId];
+            if (!obj || !obj.common) return null;
+            var changed = [];
+            var actualInstance = vis.views[view].widgets[widgetID].data.instance;
+            // Check if actual instance still in options
+            var firstInstance = '';
+            var found = false;
+            for (var h in obj.common.history) {
+                if (obj.common.history[h].enabled) {
+                    if (!firstInstance) firstInstance = h;
+                    if (h === actualInstance) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                changed.push('instance');
+                vis.views[view].widgets[widgetID].data.instance = firstInstance;
+            }
+            return changed.length ? changed : null;
+        };
+    }
+
     vis.binds.history.showVersion();
 </script>
 
@@ -117,16 +329,38 @@
         data-vis-set="history"
         data-vis-name="Event list"
         data-vis-type="history"
-        data-vis-prev='<div id="prev_tplHqButton" style="position: relative; text-align: initial;padding: 10px !important"><div class="vis-widget_prev vis-hq-button-base" style="overflow: visible; width: 64px; height: 64px; border-radius: 64px; left: 543px; top: 37px; position: absolute;"><div class="vis-hq-main vis-hq-button-base-on" style="z-index: 1; border-radius: 64px;"><div class="vis-hq-middle"><table class="vis-hq-table hq-no-space" style="position: absolute; left: 4px; top: 2px;"><tbody><tr class="hq-no-space"><td class="hq-no-space"><div class="vis-hq-icon" style="text-align: center;"><img class="vis-hq-icon-img" style="height: 56px; width: auto;" src="img/bulb_off.png"></div></td></tr></tbody></table></div></div></div></div>'
-        data-vis-attrs="oid/id;instance/history;title;title_attr;"
-        data-vis-attrs0="group.advanced;max_lines/slider,1,100,1;time_interval_min/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;"
-        data-vis-attrs1="format_date[hh:mm:ss.sss]/auto,YYYY.MM.DD hh:mm:ss,DD.MM.YYYY hh:mm:ss,YYYY.MM.DD,DD.MM.YYYY,YYYY/MM/DD hh:mm:ss,YYYY/MM/DD,hh:mm:ss;"
-        data-vis-attrs2="group.columns;table_attr[border: 1px solid gray§];header_attr[background: #8f8f8f§ color: white];"
-        data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr[text-align: center§];"
+        data-vis-prev='<img src="widgets/history/img/Prev_tplHistoryEventList.png"></img>'
+        data-vis-attrs="oid/hid/onHidChanged;instance/history;"
+        data-vis-attrs0="group.advanced;max_lines[6]/slider,1,100,1;time_interval_min/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;"
+        data-vis-attrs1="format_date[hh:mm:ss.sss]/auto,YYYY.MM.DD hh:mm:ss,DD.MM.YYYY hh:mm:ss,YYYY.MM.DD,DD.MM.YYYY,YYYY/MM/DD hh:mm:ss,YYYY/MM/DD,hh:mm:ss;timeAsInterval/checkbox;inverseOrder/checkbox;"
+        data-vis-attrs2="group.columns;table_attr;header_attr;"
+        data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr;"
         data-vis-attrs4="val_name[Value];val_hide/checkbox;val_width/slider,0,300,1;val_attr[text-align: center§];"
-        data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr[text-align: center§];"
+        data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr;"
+        data-vis-attrs6="class[vis-green-gray]/hidden"
         >
-    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 100px; height: 200px; border: 1px solid gray" id="<%= this.data.attr('wid') %>">
+    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 210px; height: 170px;" id="<%= this.data.attr('wid') %>">
         <div class="vis-widget-body" <%= (el) -> vis.binds.history.eventList.init(el, this.view, this.data) %>></div>
+    </div>
+</script>
+
+<script id="tplHistorySparkLIne"
+        type="text/ejs"
+        class="vis-tpl"
+        data-vis-set="history"
+        data-vis-name="Sparkline"
+        data-vis-type="history"
+        data-vis-prev='<img src="widgets/history/img/Prev_tplHistorySparkLIne.png"></img>'
+        data-vis-attrs="oid/hid/onHidChanged;instance/history;"
+        data-vis-attrs0="group.advanced;max_lines[6]/slider,1,100,1;time_interval_min/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;"
+        data-vis-attrs1="format_date[hh:mm:ss.sss]/auto,YYYY.MM.DD hh:mm:ss,DD.MM.YYYY hh:mm:ss,YYYY.MM.DD,DD.MM.YYYY,YYYY/MM/DD hh:mm:ss,YYYY/MM/DD,hh:mm:ss;timeAsInterval/checkbox;inverseOrder/checkbox;"
+        data-vis-attrs2="group.columns;table_attr;header_attr;"
+        data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr;"
+        data-vis-attrs4="val_name[Value];val_hide/checkbox;val_width/slider,0,300,1;val_attr[text-align: center§];"
+        data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr;"
+        data-vis-attrs6="class[vis-green-gray]/hidden"
+>
+    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 210px; height: 170px;" id="<%= this.data.attr('wid') %>">
+        <div class="vis-widget-body" <%= (el) -> vis.binds.history.sparkLine.init(el, this.view, this.data) %>></div>
     </div>
 </script>
