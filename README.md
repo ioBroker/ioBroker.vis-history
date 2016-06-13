@@ -9,12 +9,17 @@ ioBroker.vis-history
 
 ![Screenshot](img/widgets.png)
 
+Widgets, that can work with history data. Of course for that is some of the History Adapters are required: sql, history or influx (or something else).
+
+Sparklines can be shown only for non-binary data, because of aggregation.
+
+For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparkline/), that was written by Gareth Watts and released under the New BSD License. 
+
 ## Changelog
 
-
-### 0.1.0 (2016-06-04)
+### 0.1.0 (2016-06-13)
 - (bluefox) initial checkin
 
 ## License
  Copyright (c) 2016 bluefox
- MIT
+ BSD-3-Clause

@@ -53,7 +53,25 @@
             "from_name":        {"en": "From - name",           "de": "Von - Name",             "ru": "От - имя"},
             "from_hide":        {"en": "From - hide",           "de": "Von - nicht zeigen",     "ru": "От - скрыть"},
             "from_width":       {"en": "From - width",          "de": "Von - Breite",           "ru": "От - ширина"},
-            "from_attr":        {"en": "From - CSS style",      "de": "Von - CSS Stil",         "ru": "От - CSS стиль"}
+            "from_attr":        {"en": "From - CSS style",      "de": "Von - CSS Stil",         "ru": "От - CSS стиль"},
+            "average":          {"en": "average",               "de": "Mittelwert",             "ru": "среднее"},
+            "total":            {"en": "total",                 "de": "Summe",                  "ru": "сумма"},
+            "line":             {"en": "line",                  "de": "Linie",                  "ru": "Линия"},
+            "aggregate":        {"en": "Aggregation",           "de": "Aggregation",            "ru": "Аггрегирование"},
+            "chartType":        {"en": "chartType",             "de": "Charttyp",               "ru": "Тип графика"},
+            "points":           {"en": "points",                "de": "Anzahl Werten",          "ru": "Кол-во точек"},
+            "time_interval":    {"en": "Time interval",         "de": "Zeitintervall",          "ru": "Интервал"},
+            "group_line":       {"en": "Line",                  "de": "Linie-Chart",            "ru": "Линия"},
+            "lineColor":        {"en": "Line color",            "de": "Linie-Farbe",            "ru": "Цвет линии"},
+            "fillColor":        {"en": "Fill color",            "de": "Füllfarbe",              "ru": "Цвет заливки"},
+            "lineWidth":        {"en": "Line width",            "de": "Liniendicke",            "ru": "Ширина линии"},
+            "group_bar":        {"en": "Bar",                   "de": "Bar-Chart",              "ru": "Столбцы"},
+            "barColor":         {"en": "Positive color",        "de": "Positivfarbe",           "ru": "Цвет положительных столбцов"},
+            "negBarColor":      {"en": "negative color",        "de": "Negativfarbe",           "ru": "Цвет отрицательных столбцов"},
+            "zeroColor":        {"en": "Zero color",            "de": "0-Farbe",                "ru": "Цвер нулевых значений"},
+            "barSpacing":       {"en": "Bar's spacing",         "de": "Abstand",                "ru": "Расстояние между столбцами"},
+            "disableTooltips":  {"en": "Hide tooltips",         "de": "Kein Tooltips",          "ru": "Нет подсказки"},
+            "history":          {"en": "history",               "de": "history",                "ru": "history"}
         });
     }
 
@@ -194,7 +212,6 @@
             },
             init: function (el, view, data) {
                 var $div = $(el);
-                console.log('h');
 
                 var _data = {};
                 for (var s  in data) {
@@ -234,9 +251,10 @@
                 } else {
                     vis.getHistory(data.oid, {
                         instance:   data.instance,
-                        count:      data.max_lines || 10,
-                        aggregate:  'average',
-                        start:      vis.binds.history.eventList.intervals[data.time_interval_min] ? new Date().getTime() - vis.binds.history.eventList.intervals[data.time_interval_min] : undefined,
+                        count:      parseInt(data.points, 10) || 10,
+                        aggregate:  data.aggregate || 'average',
+                        start:      vis.binds.history.eventList.intervals[data.time_interval] ? new Date().getTime() - vis.binds.history.eventList.intervals[data.time_interval] : undefined,
+                        end:        new Date().getTime() + 5000,
                         timeout:    2000
                     }, function (err, result) {
                         var data = $div.data('options');
@@ -246,12 +264,20 @@
                             for (var i = 0; i < result.length; i++) {
                                 values.push(result[i].val)
                             }
+                            var barWidth = $div.width() / result.length - (parseFloat(data.barSpacing) || 1);
 
                             $div.sparkline(values, {
+                                type: data.chartType || 'line',
                                 width: $div.width(),
                                 height: $div.height(),
-                                lineColor: data.lineColor,
-                                fillColor: data.fillColor,
+                                lineColor: data.lineColor || undefined,
+                                barColor: data.barColor || undefined,
+                                negBarColor: data.negBarColor || undefined,
+                                zeroColor: data.zeroColor || undefined,
+                                fillColor: data.fillColor || undefined,
+                                barWidth: barWidth,
+                                disableTooltips: data.disableTooltips || undefined,
+                                barSpacing: parseFloat(data.barSpacing) || 1,
                                 chartRangeMin: data.min === '' || data.min === null || data.min === 'undefined' ? undefined : parseFloat(data.min),
                                 chartRangeMax: data.max === '' || data.max === null || data.max === 'undefined' ? undefined : parseFloat(data.max),
                                 lineWidth: parseInt(data.lineWidth, 10) || 1
@@ -260,8 +286,8 @@
                             $div.sparkline([0,0], {
                                 width: $div.width(),
                                 height: $div.height(),
-                                lineColor: data.lineColor,
-                                fillColor: data.fillColor,
+                                lineColor: data.lineColor || undefined,
+                                fillColor: data.fillColor || undefined,
                                 chartRangeMin: data.min === '' || data.min === null || data.min === 'undefined' ? undefined : parseFloat(data.min),
                                 chartRangeMax: data.max === '' || data.max === null || data.max === 'undefined' ? undefined : parseFloat(data.max),
                                 lineWidth: parseInt(data.lineWidth, 10) || 1
@@ -273,7 +299,6 @@
             },
             init: function (el, view, data) {
                 var $div = $(el);
-                console.log('h');
 
                 var _data = {};
                 for (var s  in data) {
@@ -288,6 +313,12 @@
                     vis.states.bind(_data.oid + '.val', function () {
                         vis.binds.history.sparkLine.update($div);
                     });
+                    // update every x seconds
+                    if (!vis.editMode) {
+                        $div.data('timer', setInterval(function () {
+                            vis.binds.history.sparkLine.update($div);
+                        }, parseInt(vis.binds.history.eventList.intervals[_data.time_interval] / (parseInt(_data.points, 10) || 10), 10)));
+                    }
                 }
                 vis.binds.history.sparkLine.update($div);
             }
@@ -350,15 +381,12 @@
         data-vis-set="history"
         data-vis-name="Sparkline"
         data-vis-type="history"
-        data-vis-prev='<img src="widgets/history/img/Prev_tplHistorySparkLIne.png"></img>'
-        data-vis-attrs="oid/hid/onHidChanged;instance/history;"
-        data-vis-attrs0="group.advanced;max_lines[6]/slider,1,100,1;time_interval_min/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;"
-        data-vis-attrs1="format_date[hh:mm:ss.sss]/auto,YYYY.MM.DD hh:mm:ss,DD.MM.YYYY hh:mm:ss,YYYY.MM.DD,DD.MM.YYYY,YYYY/MM/DD hh:mm:ss,YYYY/MM/DD,hh:mm:ss;timeAsInterval/checkbox;inverseOrder/checkbox;"
-        data-vis-attrs2="group.columns;table_attr;header_attr;"
-        data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr;"
-        data-vis-attrs4="val_name[Value];val_hide/checkbox;val_width/slider,0,300,1;val_attr[text-align: center§];"
-        data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr;"
-        data-vis-attrs6="class[vis-green-gray]/hidden"
+        data-vis-update-style="true"
+        data-vis-prev='<img src="widgets/history/img/Prev_tplHistorySparkLine.png"></img>'
+        data-vis-attrs="oid/hid/onHidChanged;instance/history;aggregate[average]/select,average,min,max,total;chartType[line]/select,line,bar;"
+        data-vis-attrs0="points[20]/slider,1,100,1;time_interval[10 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;;min;max;disableTooltips/checkbox;"
+        data-vis-attrs1="group.line;lineColor/color;fillColor/color;lineWidth/slider,1,10,1;"
+        data-vis-attrs2="group.bar;barColor/color;negBarColor/color;zeroColor/color;min;max;barSpacing/slider,1,10,1;"
 >
     <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 210px; height: 170px;" id="<%= this.data.attr('wid') %>">
         <div class="vis-widget-body" <%= (el) -> vis.binds.history.sparkLine.init(el, this.view, this.data) %>></div>
