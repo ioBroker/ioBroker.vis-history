@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "vis-history",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "title":                    "ioBroker Visualisation - history Widgets",
 		"news": {
+			"0.1.1": {
+                "en": "change default style to vis-style-green-gray",
+                "de": "change default style to vis-style-green-gray",
+                "ru": "change default style to vis-style-green-gray"
+            },
             "0.1.0": {
                 "en": "initial commit",
                 "de": "initial commit",

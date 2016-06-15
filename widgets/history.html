@@ -1,7 +1,7 @@
 <!--
     ioBroker.vis history widgets
 
-    version: "0.0.1"
+    version: "0.1.1"
 
     Copyright 2016 bluefox<dogafox@gmail.com>
 
@@ -76,7 +76,7 @@
     }
 
     vis.binds.history = {
-        version: "0.0.1",
+        version: "0.1.1",
         showVersion: function () {
             if (vis.binds.history.version) {
                 console.log('Version vis-history: ' + vis.binds.history.version);
@@ -368,7 +368,7 @@
         data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr;"
         data-vis-attrs4="val_name[Value];val_hide/checkbox;val_width/slider,0,300,1;val_attr[text-align: center§];"
         data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr;"
-        data-vis-attrs6="class[vis-green-gray]/hidden"
+        data-vis-attrs6="class[vis-style-green-gray]/hidden"
         >
     <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 210px; height: 170px;" id="<%= this.data.attr('wid') %>">
         <div class="vis-widget-body" <%= (el) -> vis.binds.history.eventList.init(el, this.view, this.data) %>></div>

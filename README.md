@@ -17,6 +17,9 @@ For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparklin
 
 ## Changelog
 
+### 0.1.1 (2016-06-13)
+- (bluefox) change default style to vis-style-green-gray
+
 ### 0.1.0 (2016-06-13)
 - (bluefox) initial checkin
 
