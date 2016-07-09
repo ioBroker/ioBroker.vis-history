@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "vis-history",
-        "version": "0.2.0",
+        "version": "0.2.1",
         "title":                    "ioBroker Visualisation - history Widgets",
 		"news": {
+			"0.2.1": {
+                "en": "fix typo",
+                "de": "fix typo",
+                "ru": "fix typo"
+            },
 			"0.2.0": {
                 "en": "fix max line settings\nadd 'none' time selector",
                 "de": "fix max line settings\nadd 'none' time selector",
