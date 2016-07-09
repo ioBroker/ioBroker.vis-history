@@ -1,7 +1,7 @@
 <!--
     ioBroker.vis history widgets
 
-    version: "0.1.1"
+    version: "0.2.0"
 
     Copyright 2016 bluefox<dogafox@gmail.com>
 
@@ -9,7 +9,7 @@
 <script type="text/javascript" src="widgets/history/lib/js/jquery.sparkline.min.js"></script>
 
 <script type="text/javascript">
-    "use strict";
+    'use strict';
     if (vis.editMode) {
         // Add words for basic widgets
         $.extend(true, systemDictionary, {
@@ -76,7 +76,7 @@
     }
 
     vis.binds.history = {
-        version: "0.1.1",
+        version: "0.2.0",
         showVersion: function () {
             if (vis.binds.history.version) {
                 console.log('Version vis-history: ' + vis.binds.history.version);
@@ -101,20 +101,20 @@
         },
         eventList: {
             intervals: {
-                "1 second":     1000,
-                "10 seconds":   10000,
-                "30 seconds":   30000,
-                "1 minute":     60000,
-                "2 minutes":    120000,
-                "5 minutes":    300000,
-                "10 minutes":   600000,
-                "30 minutes":   1800000,
-                "1 hour":       3600000,
-                "2 hours":      7200000,
-                "4 hours":      14400000,
-                "8 hours":      28800000,
-                "12 hours":     43200000,
-                "24 hours":     86400000
+                '1 second':     1000,
+                '10 seconds':   10000,
+                '30 seconds':   30000,
+                '1 minute':     60000,
+                '2 minutes':    120000,
+                '5 minutes':    300000,
+                '10 minutes':   600000,
+                '30 minutes':   1800000,
+                '1 hour':       3600000,
+                '2 hours':      7200000,
+                '4 hours':      14400000,
+                '8 hours':      28800000,
+                '12 hours':     43200000,
+                '24 hours':     86400000
 
             },
             header: function (data) {
@@ -179,13 +179,16 @@
                         if (err) console.log(err);
                         if (result && result.length) {
                             var header = vis.binds.history.eventList.header(data);
+                            var cnt = 0;
                             if (data.inverseOrder) {
                                 for (e = 0; e < result.length; e++) {
                                     header.text += vis.binds.history.eventList.renderLine(header, data, result, e);
+                                    if (data.max_lines && ++cnt >= data.max_lines) break;
                                 }
                             } else {
                                 for (e = result.length - 1; e >= 0; e--) {
                                     header.text += vis.binds.history.eventList.renderLine(header, data, result, e);
+                                    if (data.max_lines && ++cnt >= data.max_lines) break;
                                 }
                             }
 
@@ -362,7 +365,7 @@
         data-vis-type="history"
         data-vis-prev='<img src="widgets/history/img/Prev_tplHistoryEventList.png"></img>'
         data-vis-attrs="oid/hid/onHidChanged;instance/history;"
-        data-vis-attrs0="group.advanced;max_lines[6]/slider,1,100,1;time_interval_min/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;"
+        data-vis-attrs0="group.advanced;max_lines[6]/slider,1,100,1;time_interval_min/select,none,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;"
         data-vis-attrs1="format_date[hh:mm:ss.sss]/auto,YYYY.MM.DD hh:mm:ss,DD.MM.YYYY hh:mm:ss,YYYY.MM.DD,DD.MM.YYYY,YYYY/MM/DD hh:mm:ss,YYYY/MM/DD,hh:mm:ss;timeAsInterval/checkbox;inverseOrder/checkbox;"
         data-vis-attrs2="group.columns;table_attr;header_attr;"
         data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr;"

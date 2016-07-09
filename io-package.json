@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "vis-history",
-        "version": "0.1.1",
+        "version": "0.2.0",
         "title":                    "ioBroker Visualisation - history Widgets",
 		"news": {
+			"0.2.0": {
+                "en": "fix max line settings\nadd 'none' time selector",
+                "de": "fix max line settings\nadd 'none' time selector",
+                "ru": "fix max line settings\nadd 'none' time selector"
+            },
 			"0.1.1": {
                 "en": "change default style to vis-style-green-gray",
                 "de": "change default style to vis-style-green-gray",

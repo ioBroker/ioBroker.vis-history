@@ -17,6 +17,10 @@ For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparklin
 
 ## Changelog
 
+### 0.2.0 (2016-07-09)
+- (bluefox) fix max line settings
+- (bluefox) add 'none' time selector
+
 ### 0.1.1 (2016-06-13)
 - (bluefox) change default style to vis-style-green-gray
 
