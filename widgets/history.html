@@ -1,7 +1,7 @@
 <!--
     ioBroker.vis history widgets
 
-    version: "0.2.1"
+    version: "0.2.2"
 
     Copyright 2016 bluefox<dogafox@gmail.com>
 
@@ -46,14 +46,17 @@
             "time_hide":        {"en": "Time - hide",           "de": "Zeit - nicht zeigen",    "ru": "Время - скрыть"},
             "time_width":       {"en": "Time - width",          "de": "Zeit - Breite",          "ru": "Время - ширина"},
             "time_attr":        {"en": "Time - CSS style",      "de": "Zeit - CSS Stil",        "ru": "Время - CSS стиль"},
+            "time_unit":        {"en": "Time - suffix",         "de": "Zeit - Suffix",          "ru": "Время - суффикс"},
             "val_name":         {"en": "Val- name",             "de": "Wert - Name",            "ru": "Значение - имя"},
-            "val_hide":         {"en": "Val - hide",            "de": "Wert - nicht zeigen",    "ru": "Значение  - скрыть"},
+            "val_hide":         {"en": "Val - hide",            "de": "Wert - nicht zeigen",    "ru": "Значение - скрыть"},
             "val_width":        {"en": "Val - width",           "de": "Wert - Breite",          "ru": "Значение - ширина"},
             "val_attr":         {"en": "Val - CSS style",       "de": "Wert - CSS Stil",        "ru": "Значение - CSS стиль"},
+            "val_unit":         {"en": "Val - units",           "de": "Wert - Einheit",         "ru": "Значение - единицы"},
             "from_name":        {"en": "From - name",           "de": "Von - Name",             "ru": "От - имя"},
             "from_hide":        {"en": "From - hide",           "de": "Von - nicht zeigen",     "ru": "От - скрыть"},
             "from_width":       {"en": "From - width",          "de": "Von - Breite",           "ru": "От - ширина"},
             "from_attr":        {"en": "From - CSS style",      "de": "Von - CSS Stil",         "ru": "От - CSS стиль"},
+            "from_unit":        {"en": "From - suffix",         "de": "Von - Suffix",           "ru": "От - суффикс"},
             "average":          {"en": "average",               "de": "Mittelwert",             "ru": "среднее"},
             "total":            {"en": "total",                 "de": "Summe",                  "ru": "сумма"},
             "line":             {"en": "line",                  "de": "Linie",                  "ru": "Линия"},
@@ -76,7 +79,7 @@
     }
 
     vis.binds.history = {
-        version: "0.2.1",
+        version: "0.2.2",
         showVersion: function () {
             if (vis.binds.history.version) {
                 console.log('Version vis-history: ' + vis.binds.history.version);
@@ -147,6 +150,10 @@
                 } else {
                     time = '&nbsp;';
                 }
+
+                if (time !== '&nbsp;' && data.time_unit) time += data.time_unit;
+                if (data.val_unit && resLine.val !== '&nbsp;' && resLine.val !== null && resLine.val !== undefined && resLine.val !== '') resLine.val += data.val_unit;
+                if (data.from_unit && resLine.from !== '&nbsp;' && resLine.from !== null && resLine.from !== undefined && resLine.from !== '') resLine.from += data.from_unit;
 
                 if (!data.time_hide) text += '<td style="' + header.attrTime + (data.time_attr || '') + ';' + header.table_attr + '">' + time + '</td>';
                 if (!data.val_hide)  text += '<td style="' + header.attrVal  + (data.val_attr  || '') + ';' + header.table_attr + '">' + resLine.val + '</td>';
@@ -368,9 +375,9 @@
         data-vis-attrs0="group.advanced;max_lines[6]/slider,1,100,1;time_interval_min/select,none,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;"
         data-vis-attrs1="format_date[hh:mm:ss.sss]/auto,YYYY.MM.DD hh:mm:ss,DD.MM.YYYY hh:mm:ss,YYYY.MM.DD,DD.MM.YYYY,YYYY/MM/DD hh:mm:ss,YYYY/MM/DD,hh:mm:ss;timeAsInterval/checkbox;inverseOrder/checkbox;"
         data-vis-attrs2="group.columns;table_attr;header_attr;"
-        data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr;"
-        data-vis-attrs4="val_name[Value];val_hide/checkbox;val_width/slider,0,300,1;val_attr[text-align: center§];"
-        data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr;"
+        data-vis-attrs3="time_name[Time];time_hide/checkbox;time_width[100]/slider,0,300,1;time_attr;time_unit;"
+        data-vis-attrs4="val_name[Value];val_hide/checkbox;val_width/slider,0,300,1;val_attr[text-align: center§];val_unit;"
+        data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr;from_unit;"
         data-vis-attrs6="class[vis-style-green-gray]/hidden"
         >
     <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 210px; height: 170px;" id="<%= this.data.attr('wid') %>">
