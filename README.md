@@ -17,6 +17,9 @@ For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparklin
 
 ## Changelog
 
+### 0.2.3 (2016-09-22)
+- (bluefox) fixed JS error
+
 ### 0.2.2 (2016-08-22)
 - (bluefox) add units and suffix
 

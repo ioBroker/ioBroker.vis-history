@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "vis-history",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "title":                    "ioBroker Visualisation - history Widgets",
 		"news": {
+			"0.2.3": {
+                "en": "fix JS error",
+                "de": "JS Fehler korrigiert",
+                "ru": "Исправлена JS ошибка"
+            },
 			"0.2.2": {
                 "en": "add units and suffix",
                 "de": "add units and suffix",

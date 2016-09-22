@@ -141,7 +141,7 @@
                 }
                 return {text: text, attrTime: attrTime, attrVal: attrVal, attrFrom: attrFrom, table_attr: table_attr};
             },
-            renderLine(header, data, result, line) {
+            renderLine: function (header, data, result, line) {
                 var resLine = result[line] || {val: '&nbsp;', from: '&nbsp;'};
                 var text = '<tr style="' + header.table_attr + '">';
                 var time;
