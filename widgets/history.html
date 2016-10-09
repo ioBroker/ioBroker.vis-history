@@ -1,7 +1,7 @@
 <!--
     ioBroker.vis history widgets
 
-    version: "0.2.2"
+    version: "0.2.4"
 
     Copyright 2016 bluefox<dogafox@gmail.com>
 
@@ -79,7 +79,7 @@
     }
 
     vis.binds.history = {
-        version: "0.2.2",
+        version: "0.2.4",
         showVersion: function () {
             if (vis.binds.history.version) {
                 console.log('Version vis-history: ' + vis.binds.history.version);
@@ -344,9 +344,11 @@
             // Check if actual instance still in options
             var firstInstance = '';
             var found = false;
-            for (var h in obj.common.history) {
-                if (obj.common.history[h].enabled) {
-                    if (!firstInstance) firstInstance = h;
+            var custom = obj.common.custom || obj.common.history;
+            for (var h in custom) {
+                if (!custom.hasOwnProperty(h)) continue;
+                if (custom[h].enabled) {
+                    if (firstInstance === '') firstInstance = h;
                     if (h === actualInstance) {
                         found = true;
                         break;

@@ -17,6 +17,9 @@ For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparklin
 
 ## Changelog
 
+### 0.2.4 (2016-10-09)
+- (bluefox) support of new custom schema
+
 ### 0.2.3 (2016-09-22)
 - (bluefox) fixed JS error
 

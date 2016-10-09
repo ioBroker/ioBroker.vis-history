@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "vis-history",
-        "version": "0.2.3",
+        "version": "0.2.4",
         "title":                    "ioBroker Visualisation - history Widgets",
 		"news": {
+			"0.2.4": {
+                "en": "support of new custom schema",
+                "de": "Unterstützung von Custom-Schema",
+                "ru": "Поддержка новой Custom-cхемы"
+            },
 			"0.2.3": {
                 "en": "fix JS error",
                 "de": "JS Fehler korrigiert",
