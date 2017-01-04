@@ -2,3 +2,6 @@ Gruntfile.js
 tasks
 node_modules
 widgets/history/lib/js/jquery.sparkline.js
+test
+.travis.yml
+appveyor.yml
