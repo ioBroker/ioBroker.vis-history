@@ -156,7 +156,10 @@
                 if (data.from_unit && resLine.from !== '&nbsp;' && resLine.from !== null && resLine.from !== undefined && resLine.from !== '') resLine.from += data.from_unit;
 
                 if (!data.time_hide) text += '<td style="' + header.attrTime + (data.time_attr || '') + ';' + header.table_attr + '">' + time + '</td>';
-                if (!data.val_hide)  text += '<td style="' + header.attrVal  + (data.val_attr  || '') + ';' + header.table_attr + '">' + resLine.val + '</td>';
+                if (!data.val_hide) {
+                    if (resLine.val.match(/https?:\/\//)) resLine.val = '<a href="' + resLine.val + '" target="eventList">' + resLine.val.split('/').pop() + '</a>';
+                    text += '<td style="' + header.attrVal  + (data.val_attr  || '') + ';' + header.table_attr + '">' + resLine.val + '</td>';
+                }
                 if (!data.from_hide) text += '<td style="' + header.attrFrom + (data.from_attr || '') + ';' + header.table_attr + '">' + (resLine.from || '') + '</td>';
 
                 text += '</tr>\n';

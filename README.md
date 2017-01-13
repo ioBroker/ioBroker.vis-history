@@ -17,6 +17,9 @@ For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparklin
 
 ## Changelog
 
+### 0.2.5 (2017-01-13)
+- (bluefox) make http links "clickable" in the list
+
 ### 0.2.4 (2016-10-09)
 - (bluefox) support of new custom schema
 
