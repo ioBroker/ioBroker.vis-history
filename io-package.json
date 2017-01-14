@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "vis-history",
-        "version": "0.2.4",
+        "version": "0.2.5",
         "title":                    "ioBroker Visualisation - history Widgets",
 		"news": {
+			"0.2.5": {
+                "en": "make http links clickable in the list",
+                "de": "Erlaube http links als Werte",
+                "ru": "Возможность иметь HTTP линки, как значения"
+            },
 			"0.2.4": {
                 "en": "support of new custom schema",
                 "de": "Unterstützung von Custom-Schema",
