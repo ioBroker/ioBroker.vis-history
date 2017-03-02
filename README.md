@@ -17,6 +17,9 @@ For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparklin
 
 ## Changelog
 
+### 0.2.6 (2017-03-02)
+- (bluefox) small fix for empty values
+
 ### 0.2.5 (2017-01-13)
 - (bluefox) make http links "clickable" in the list
 

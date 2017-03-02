@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "vis-history",
-        "version": "0.2.5",
+        "version": "0.2.6",
         "title":                    "ioBroker Visualisation - history Widgets",
 		"news": {
+			"0.2.6": {
+                "en": "small fix for empty values",
+                "de": "Kleines Fix für null Werte",
+                "ru": "Патч для null значений"
+            },
 			"0.2.5": {
                 "en": "make http links clickable in the list",
                 "de": "Erlaube http links als Werte",
