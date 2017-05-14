@@ -179,7 +179,7 @@
                 } else {
                     vis.getHistory(data.oid, {
                         instance:   data.instance,
-                        count:      data.max_lines || 10,
+                        count:      parseInt(data.max_lines, 10) || 10,
                         aggregate:  'none',
                         from:       !data.from_hide,
                         start:      vis.binds.history.eventList.intervals[data.time_interval_min] ? new Date().getTime() - vis.binds.history.eventList.intervals[data.time_interval_min] : undefined,
@@ -265,6 +265,7 @@
                     vis.getHistory(data.oid, {
                         instance:   data.instance,
                         count:      parseInt(data.points, 10) || 10,
+                        step:       parseInt(data.time_interval_min, 10) || 60000,
                         aggregate:  data.aggregate || 'average',
                         start:      vis.binds.history.eventList.intervals[data.time_interval] ? new Date().getTime() - vis.binds.history.eventList.intervals[data.time_interval] : undefined,
                         end:        new Date().getTime() + 5000,
