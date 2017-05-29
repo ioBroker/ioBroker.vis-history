@@ -1,10 +1,15 @@
 {
     "common": {
         "name":                     "vis-history",
-        "version": "0.2.6",
+        "version": "0.2.7",
         "title":                    "ioBroker Visualisation - history Widgets",
 		"news": {
-			"0.2.6": {
+            "0.2.7": {
+                "en": "small fixes",
+                "de": "Kleine Fixes",
+                "ru": "small fixes"
+            },
+            "0.2.6": {
                 "en": "small fix for empty values",
                 "de": "Kleines Fix für null Werte",
                 "ru": "Патч для null значений"

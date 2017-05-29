@@ -13,9 +13,12 @@ Widgets, that can work with history data. Of course for that is some of the Hist
 
 Sparklines can be shown only for non-binary data, because of aggregation.
 
-For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparkline/), that was written by Gareth Watts and released under the New BSD License. 
+For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparkline/), that was written by Gareth Watts and released under the New BSD License.
 
 ## Changelog
+
+### 0.2.7 (2017-05-29)
+- (Apollon77) small fixes on Title (http://forum.iobroker.net/viewtopic.php?f=23&t=3111&start=20#p68971) and getHistory parameters
 
 ### 0.2.6 (2017-03-02)
 - (bluefox) small fix for empty values
