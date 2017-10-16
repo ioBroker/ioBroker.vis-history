@@ -1,9 +1,9 @@
 {
     "common": {
-        "name":                     "vis-history",
+        "name": "vis-history",
         "version": "0.2.7",
-        "title":                    "ioBroker Visualisation - history Widgets",
-		"news": {
+        "title": "ioBroker Visualisation - history Widgets",
+        "news": {
             "0.2.7": {
                 "en": "small fixes",
                 "de": "Kleine Fixes",
@@ -14,37 +14,37 @@
                 "de": "Kleines Fix für null Werte",
                 "ru": "Патч для null значений"
             },
-			"0.2.5": {
+            "0.2.5": {
                 "en": "make http links clickable in the list",
                 "de": "Erlaube http links als Werte",
                 "ru": "Возможность иметь HTTP линки, как значения"
             },
-			"0.2.4": {
+            "0.2.4": {
                 "en": "support of new custom schema",
                 "de": "Unterstützung von Custom-Schema",
                 "ru": "Поддержка новой Custom-cхемы"
             },
-			"0.2.3": {
+            "0.2.3": {
                 "en": "fix JS error",
                 "de": "JS Fehler korrigiert",
                 "ru": "Исправлена JS ошибка"
             },
-			"0.2.2": {
+            "0.2.2": {
                 "en": "add units and suffix",
                 "de": "add units and suffix",
                 "ru": "add units and suffix"
             },
-			"0.2.1": {
+            "0.2.1": {
                 "en": "fix typo",
                 "de": "fix typo",
                 "ru": "fix typo"
             },
-			"0.2.0": {
+            "0.2.0": {
                 "en": "fix max line settings\nadd 'none' time selector",
                 "de": "fix max line settings\nadd 'none' time selector",
                 "ru": "fix max line settings\nadd 'none' time selector"
             },
-			"0.1.1": {
+            "0.1.1": {
                 "en": "change default style to vis-style-green-gray",
                 "de": "change default style to vis-style-green-gray",
                 "ru": "change default style to vis-style-green-gray"
@@ -56,32 +56,41 @@
             }
         },
         "desc": {
-            "en":                   "history Widgets for ioBroker.vis",
-            "de":                   "history Widgets für ioBroker.vis",
-            "ru":                   "history Widgets для ioBroker.vis"
+            "en": "history Widgets for ioBroker.vis",
+            "de": "history Widgets für ioBroker.vis",
+            "ru": "history Widgets для ioBroker.vis"
         },
-        "platform":                 "Javascript/Node.js",
-        "icon":                     "vis-history.png",
-        "enabled":                  true,
-        "mode":                     "once",
-        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.vis-history/master/admin/vis-history.png",
-        "keywords":                 ["history", "vis", "GUI", "graphical", "scada"],
-        "readme":                   "https://github.com/ioBroker/ioBroker.vis-history/blob/master/README.md",
+        "platform": "Javascript/Node.js",
+        "icon": "vis-history.png",
+        "enabled": true,
+        "mode": "once",
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.vis-history/master/admin/vis-history.png",
+        "keywords": [
+            "history",
+            "vis",
+            "GUI",
+            "graphical",
+            "scada"
+        ],
+        "readme": "https://github.com/ioBroker/ioBroker.vis-history/blob/master/README.md",
         "authors": [
             "Pmant <patrickmo@gmx.de>"
         ],
-        "localLink":                "%web_protocol%://%ip%:%web_port%/vis/edit.html",
-        "license":                  "BSD-3-Clause",
-        "dependencies":             ["vis"],
-        "onlyWWW":                  true,
-        "singleton":                true,
-        "type":                     "vis",
-	    "noConfig":                 true,
-	    "restartAdapters":          ["vis"]
+        "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
+        "license": "BSD-3-Clause",
+        "dependencies": [
+            "vis"
+        ],
+        "onlyWWW": true,
+        "singleton": true,
+        "type": "visualization-widgets",
+        "noConfig": true,
+        "restartAdapters": [
+            "vis"
+        ]
     },
     "native": {
-        "dependencies":          []
+        "dependencies": []
     },
-    "instanceObjects": [
-    ]
+    "instanceObjects": []
 }
