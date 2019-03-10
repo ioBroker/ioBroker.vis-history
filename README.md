@@ -1,7 +1,7 @@
 ![Logo](admin/vis-history.png)
 ioBroker.vis-history
 ============
-[![NPM version](http://img.shields.io/npm/v/iobroker.vis-history.svg)](https://www.npmjs.com/package/iobroker.vis-history)
+![Number of Installations](http://iobroker.live/badges/vis-history-installed.svg) ![Number of Installations](http://iobroker.live/badges/vis-history-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.vis-history.svg)](https://www.npmjs.com/package/iobroker.vis-history)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.vis-history.svg)](https://www.npmjs.com/package/iobroker.vis-history)
 
 [![NPM](https://nodei.co/npm/iobroker.vis-history.png?downloads=true)](https://nodei.co/npm/iobroker.vis-history/)
