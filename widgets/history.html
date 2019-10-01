@@ -337,9 +337,23 @@
                 $div.data('options', _data);
 
                 if (_data.oid && _data.instance) {
-                    vis.states.bind(_data.oid + '.val', function () {
-                        vis.binds.history.sparkLine.update($div);
-                    });
+                    var updateTimer = null;
+                    function onChange () {
+                        if (!updateTimer) {
+                            updateTimer = setTimeout(function () {
+                                updateTimer = null;
+                                vis.binds.history.sparkLine.update($div);
+                            }, 100);
+                        }
+                    }
+
+                    vis.states.bind(_data.oid + '.val', onChange);
+                    vis.states.bind(_data.oid + '.ts', onChange);
+
+                    $div.data('bound', [_data.oid + '.val', _data.oid + '.ts'])
+                    // remember bind handler
+                        .data('bindHandler', onChange);
+
                     // update every x seconds
                     if (!vis.editMode) {
                         $div.data('timer', setInterval(function () {
