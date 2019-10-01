@@ -1,7 +1,7 @@
 {
   "name": "iobroker.vis-history",
   "description": "history Widgets for ioBroker.vis",
-  "version": "0.2.7",
+  "version": "1.0.0",
   "author": {
     "name": "bluefox",
     "email": "dogafox@gmail.com"
@@ -26,13 +26,13 @@
     "history"
   ],
   "devDependencies": {
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.4",
     "grunt-replace": "^1.0.1",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-jscs": "^3.0.1",
-    "grunt-http": "^2.2.0",
-    "mocha": "^4.1.0",
-    "chai": "^4.1.2"
+    "grunt-http": "^2.3.2",
+    "mocha": "^6.2.1",
+    "chai": "^4.2.0"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.vis-history/issues"

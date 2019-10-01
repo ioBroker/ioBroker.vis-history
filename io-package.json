@@ -1,9 +1,33 @@
 {
     "common": {
         "name": "vis-history",
-        "version": "0.2.7",
-        "title": "ioBroker Visualisation - history Widgets",
+        "version": "1.0.0",
+        "title": "History Widgets",
+        "titleLang": {
+            "en": "History Widgets",
+            "de": "Verlaufswidgets",
+            "ru": "Виджеты истории",
+            "pt": "Widgets de História",
+            "nl": "Geschiedenis Widgets",
+            "fr": "Widgets Histoire",
+            "it": "Widget della storia",
+            "es": "Widgets de historia",
+            "pl": "Widżety historii",
+            "zh-cn": "历史小部件"
+        },
         "news": {
+            "1.0.0": {
+                "en": "update table too if the value has been only updated",
+                "de": "Aktualisieren Sie die Tabelle auch, wenn der Wert nur aktualisiert wurde",
+                "ru": "обновить таблицу тоже, если значение было только обновлено",
+                "pt": "atualize a tabela também se o valor tiver sido atualizado apenas",
+                "nl": "update tabel ook als de waarde alleen is bijgewerkt",
+                "fr": "update table aussi si la valeur a été mise à jour uniquement",
+                "it": "aggiorna anche la tabella se il valore è stato solo aggiornato",
+                "es": "actualizar tabla también si el valor solo se ha actualizado",
+                "pl": "aktualizuj tabelę również, jeśli wartość została zaktualizowana",
+                "zh-cn": "如果只更新了值，也更新表"
+            },
             "0.2.7": {
                 "en": "small fixes",
                 "de": "Kleine Fixes",
@@ -23,42 +47,19 @@
                 "en": "support of new custom schema",
                 "de": "Unterstützung von Custom-Schema",
                 "ru": "Поддержка новой Custom-cхемы"
-            },
-            "0.2.3": {
-                "en": "fix JS error",
-                "de": "JS Fehler korrigiert",
-                "ru": "Исправлена JS ошибка"
-            },
-            "0.2.2": {
-                "en": "add units and suffix",
-                "de": "add units and suffix",
-                "ru": "add units and suffix"
-            },
-            "0.2.1": {
-                "en": "fix typo",
-                "de": "fix typo",
-                "ru": "fix typo"
-            },
-            "0.2.0": {
-                "en": "fix max line settings\nadd 'none' time selector",
-                "de": "fix max line settings\nadd 'none' time selector",
-                "ru": "fix max line settings\nadd 'none' time selector"
-            },
-            "0.1.1": {
-                "en": "change default style to vis-style-green-gray",
-                "de": "change default style to vis-style-green-gray",
-                "ru": "change default style to vis-style-green-gray"
-            },
-            "0.1.0": {
-                "en": "initial commit",
-                "de": "initial commit",
-                "ru": "initial commit"
             }
         },
         "desc": {
             "en": "history Widgets for ioBroker.vis",
-            "de": "history Widgets für ioBroker.vis",
-            "ru": "history Widgets для ioBroker.vis"
+            "de": "Widgets für ioBroker.vis",
+            "ru": "История виджетов для ioBroker.vis",
+            "pt": "Widgets de história para ioBroker.vis",
+            "nl": "geschiedenis Widgets voor ioBroker.vis",
+            "fr": "Historique Widgets pour ioBroker.vis",
+            "it": "widget di cronologia per ioBroker.vis",
+            "es": "Widgets de historia para ioBroker.vis",
+            "pl": "Historia Widżety dla ioBroker.vis",
+            "zh-cn": "ioBroker.vis的历史小部件"
         },
         "platform": "Javascript/Node.js",
         "icon": "vis-history.png",

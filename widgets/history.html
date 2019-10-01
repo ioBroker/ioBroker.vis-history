@@ -241,9 +241,22 @@
                         vis.binds.history.startIntervalUpdate();
                     }
 
-                    vis.states.bind(_data.oid + '.val', function () {
-                        vis.binds.history.eventList.update($div);
-                    });
+                    var updateTimer = null;
+                    function onChange () {
+                        if (!updateTimer) {
+                            updateTimer = setTimeout(function () {
+                                updateTimer = null;
+                                vis.binds.history.eventList.update($div);
+                            }, 100);
+                        }
+                    }
+
+                    vis.states.bind(_data.oid + '.val', onChange);
+                    vis.states.bind(_data.oid + '.ts', onChange);
+
+                    $div.data('bound', [_data.oid + '.val', _data.oid + '.ts'])
+                        // remember bind handler
+                        .data('bindHandler', onChange);
                 }
                 vis.binds.history.eventList.update($div);
             }
@@ -385,7 +398,7 @@
         data-vis-attrs4="val_name[Value];val_hide/checkbox;val_width/slider,0,300,1;val_attr[text-align: center§];val_unit;"
         data-vis-attrs5="from_name[Form];from_hide[true]/checkbox;from_width/slider,0,300,1;from_attr;from_unit;"
         data-vis-attrs6="class[vis-style-green-gray]/hidden"
-        >
+>
     <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 210px; height: 170px;" id="<%= this.data.attr('wid') %>">
         <div class="vis-widget-body" <%= (el) -> vis.binds.history.eventList.init(el, this.view, this.data) %>></div>
     </div>
