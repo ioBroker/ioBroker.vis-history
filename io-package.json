@@ -78,7 +78,10 @@
             "Pmant <patrickmo@gmx.de>"
         ],
         "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
-        "license": "BSD-3-Clause",
+        "licenseInformation": {
+            "type": "free",
+            "license": "BSD-3-Clause"
+        },
         "dependencies": [
             "vis"
         ],
