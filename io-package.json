@@ -2,7 +2,6 @@
     "common": {
         "name": "vis-history",
         "version": "1.0.0",
-        "title": "History Widgets",
         "titleLang": {
             "en": "History Widgets",
             "de": "Verlaufswidgets",
