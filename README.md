@@ -51,6 +51,8 @@ For sparklines is used the [jquery plugin](http://omnipotent.net/jquery.sparklin
 ### 0.1.0 (2016-06-13)
 - (bluefox) initial checkin
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
  Copyright (c) 2016-2026 bluefox
  BSD-3-Clause
