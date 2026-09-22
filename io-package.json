@@ -85,7 +85,9 @@
         "onlyWWW": true,
         "singleton": true,
         "type": "visualization-widgets",
-        "noConfig": true,
+        "adminUI": {
+            "config": "none"
+        },
         "restartAdapters": [
             "vis"
         ]
