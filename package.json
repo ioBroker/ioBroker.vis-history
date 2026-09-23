@@ -30,7 +30,7 @@
     "grunt-replace": "^1.0.1",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-jscs": "^3.0.1",
-    "grunt-http": "^2.3.2",
+    "grunt-http": "^2.3.3",
     "mocha": "^6.2.1",
     "chai": "^4.2.0"
   },
